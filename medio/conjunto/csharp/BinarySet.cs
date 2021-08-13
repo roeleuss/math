@@ -4,11 +4,11 @@ public class BinarySet
 {
     BinaryNode root;
 
-    public void Add(BinaryNode nodeToAdd) 
+    public void Add(int newElement) 
     {
         if (root == null) 
         {
-            root = nodeToAdd;
+            root = new BinaryNode(newElement);
             return;
         }
 
@@ -16,12 +16,13 @@ public class BinarySet
 
         while (node != null)
         {
-            if (node.Element == nodeToAdd.Element) return;
+            if (node.Element == newElement) return;
             
-            if (nodeToAdd.Element < node.Element) 
+            if (newElement < node.Element) 
             {
                 if (node.Less == null) 
                 {
+                    var nodeToAdd = new BinaryNode(newElement);
                     nodeToAdd.Parent = node;
                     nodeToAdd.Side = BinarySide.LEFT;
                     node.Less = nodeToAdd;
@@ -36,6 +37,7 @@ public class BinarySet
             {
                 if (node.Greater == null) 
                 {
+                    var nodeToAdd = new BinaryNode(newElement);
                     nodeToAdd.Parent = node;
                     nodeToAdd.Side = BinarySide.RIGHT;
                     node.Greater = nodeToAdd;

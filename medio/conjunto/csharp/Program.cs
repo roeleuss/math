@@ -55,7 +55,7 @@ class Program
         DateTime init = DateTime.Now;
         for (int i = 0; i < loop; i++)
         {
-            set.Add(new BinaryNode(rnd.Next(loop)));
+            set.Add(rnd.Next(loop));
         }
         DateTime end = DateTime.Now;
         Console.WriteLine($"Elapse Time to Try Populate {loop,10} elements: {(end - init).TotalSeconds:F3} seconds");

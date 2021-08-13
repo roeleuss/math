@@ -14,7 +14,8 @@ public class BinaryNode {
         Parent = parent;
     }
 
-    public int Count() {
+    public int Count() 
+    {
         int less = Less?.Count() ?? 0;
         int greater = Greater?.Count() ?? 0;
         return 1 + less + greater;
