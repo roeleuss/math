@@ -180,7 +180,7 @@ void BinarySet::print() {
 }
 
 void BinarySet::print(Node* node) {
-    cout << node->element << ":" << node->side << ", ";
     if (node->less != nullptr) print(node->less);
+    cout << node->element << ":" << node->side << ", ";
     if (node->greater != nullptr) print(node->greater);
 }
