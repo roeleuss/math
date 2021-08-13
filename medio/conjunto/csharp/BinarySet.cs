@@ -77,87 +77,66 @@ public class BinarySet
 
     public void Remove(int element) 
     {
-        BinaryNode node = Find(element);
-        if (node == null)  return;
+        BinaryNode nodeToRemove = Find(element);
+        if (nodeToRemove == null) return;
 
-        if (node.Side == BinarySide.LEFT) 
+        BinaryNode nodeToReplace = null;
+        if (nodeToRemove.Less != null)  
         {
-            if (node.Less != null)
-            {
-                node.Parent.Less = node.Less;
-                node.Less.Parent = node.Parent;
-
-                if (node.Greater != null)
-                {
-                    BinaryNode max = node.Less.Max();
-                    max.Greater = node.Greater;
-                    max.Greater.Parent = max;
-                }
-            }
-            else if (node.Greater != null)
-            {
-                node.Parent.Less = node.Greater;
-                node.Parent.Less.Side = BinarySide.LEFT;
-                node.Greater.Parent = node.Parent;
-            }
-            else
-            {
-                node.Parent.Less = null;
-            }
-        }
-        else if (node.Side == BinarySide.RIGHT) 
+            nodeToReplace = nodeToRemove.Less.Max();
+        } 
+        else if (nodeToRemove.Greater != null) 
         {
-            if (node.Greater != null)
-            {
-                node.Parent.Greater = node.Greater;
-                node.Greater.Parent = node.Parent;
-
-                if (node.Less != null)
-                {
-                    BinaryNode min = node.Greater.Min();
-                    min.Less = node.Less;
-                    min.Less.Parent = min;
-                }
-            }
-            else if (node.Less != null)
-            {
-                node.Parent.Greater = node.Less;
-                node.Parent.Greater.Side = BinarySide.RIGHT;
-                node.Less.Parent = node.Parent;
-            }
-            else
-            {
-                node.Parent.Greater = null;
-            }
-        }
-        else 
-        {
-            if (node.Greater != null) 
-            {
-                node.Greater.Parent = null;
-                node.Greater.Side = BinarySide.NONE;
-
-                if (node.Less != null) 
-                {
-                    BinaryNode min = node.Greater.Min();
-                    min.Less = node.Less;
-                    node.Less.Parent = min;
-                }
-                root = node.Greater;
-            }
-            else if (node.Less != null) 
-            {
-                node.Less.Parent = null;
-                node.Less.Side = BinarySide.NONE;
-                root = node.Less;
-            }   
-            else
-            {
-                root = null;
-            }
+            nodeToReplace = nodeToRemove.Greater.Min();
         }
 
-        node.Parent = null;
-        node.Side = BinarySide.NONE;
+        if (nodeToReplace != null) 
+        {
+            switch (nodeToReplace.Side)
+            {
+            case BinarySide.RIGHT:
+                nodeToReplace.Parent.Greater = null;
+                break;
+            case BinarySide.LEFT:
+                nodeToReplace.Parent.Less = null;
+                break;
+            }
+
+            if (nodeToRemove.Less != null && nodeToRemove.Less.Element != nodeToReplace.Element) 
+            {
+                nodeToReplace.Less = nodeToRemove.Less;
+                nodeToReplace.Less.Parent = nodeToReplace;
+            }
+            else 
+            {
+                nodeToReplace.Less = null;
+            }
+
+            if (nodeToRemove.Greater != null && nodeToRemove.Greater.Element != nodeToReplace.Element) 
+            {
+                nodeToReplace.Greater = nodeToRemove.Greater;
+                nodeToReplace.Greater.Parent = nodeToReplace;
+            }
+            else 
+            {
+                nodeToReplace.Greater = null;
+            }
+
+            nodeToReplace.Parent = nodeToRemove.Parent;
+            nodeToReplace.Side = nodeToRemove.Side;
+        }
+
+        switch (nodeToRemove.Side)
+        {
+        case BinarySide.RIGHT:
+            nodeToRemove.Parent.Greater = nodeToReplace;
+            break;
+        case BinarySide.LEFT:
+            nodeToRemove.Parent.Less = nodeToReplace;
+            break;
+        case BinarySide.NONE:
+            root = nodeToReplace;
+            break;
+        }
     }
 }

@@ -24,7 +24,7 @@ class Program
             set.Remove(rnd.Next(loop));
         }
         DateTime end = DateTime.Now;
-        Console.WriteLine($"Elapse Time to Try Remove {loop,12} elements: {(end - init).TotalSeconds:F3} seconds");
+        Console.WriteLine($"Elapse Time to Try Remove {loop,12} elements: {(end - init).TotalMilliseconds,10:F0} milliseconds");
     }
 
     private static void Search(Random rnd, BinarySet set)
@@ -39,7 +39,7 @@ class Program
             }
         }
         DateTime end = DateTime.Now;
-        Console.WriteLine($"Elapse Time to Found {found,17} elements: {(end - init).TotalSeconds:F3} seconds");
+        Console.WriteLine($"Elapse Time to Found {found,17} elements: {(end - init).TotalMilliseconds,10:F0} milliseconds");
     }
 
     private static void Count(BinarySet set)
@@ -47,7 +47,7 @@ class Program
         DateTime init = DateTime.Now;
         int count = set.Count();
         DateTime end = DateTime.Now;
-        Console.WriteLine($"Elapse Time to Count {count,17} elements: {(end - init).TotalSeconds:F3} seconds");
+        Console.WriteLine($"Elapse Time to Count {count,17} elements: {(end - init).TotalMilliseconds,10:F0} milliseconds");
     }
 
     private static void Populate(Random rnd, BinarySet set)
@@ -58,7 +58,7 @@ class Program
             set.Add(rnd.Next(loop));
         }
         DateTime end = DateTime.Now;
-        Console.WriteLine($"Elapse Time to Try Populate {loop,10} elements: {(end - init).TotalSeconds:F3} seconds");
+        Console.WriteLine($"Elapse Time to Try Populate {loop,10} elements: {(end - init).TotalMilliseconds,10:F0} milliseconds");
     }
 }
 
